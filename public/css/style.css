@@ -158,7 +158,7 @@ h1, h2, h3, h4, h5, h6, ul, img, a, p {
 }
 .info_div1 {
 	float: right;
-	background-image: url(../images/arw2.png);
+	/* background-image: url(../images/arw2.png); */
 	width: 37%;
 	color: #FFF;
 	margin-top: 13%;
