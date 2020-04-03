@@ -13,9 +13,9 @@ class timeline extends React.Component {
 		if (localStorage.getItem('loginTrue') === 'false' || localStorage.getItem('loginTrue') === null) {
 			props.history.push('/login')
 		}
-		this.state = {
-			posts: []
-		};
+		// this.state = {
+		// 	posts: []
+		// };
 
 		console.log('posts data from redux', props.posts);
 	}
@@ -35,13 +35,15 @@ class timeline extends React.Component {
 									return {}
 								}
 							)
-							this.setState({
-								posts: updated_array
-							})
+							this.props.refresh_post(updated_array)
+							// this.setState({
+							// 	posts: updated_array
+							// })
 						} else if (this.props.location.state.filterByDate === true) {
-							this.setState({
-								posts: res.data.reverse()
-							});
+							this.props.refresh_post(res.data.reverse())
+							// this.setState({
+							// 	posts: res.data.reverse()
+							// });
 						} else if (this.props.location.state.filterByLike === true) {
 							console.log('most liked ran')
 							let updated_array = res.data;
@@ -54,9 +56,10 @@ class timeline extends React.Component {
 									}
 								}
 							);
-							this.setState({
-								posts: updated_array
-							});
+							this.props.refresh_post(updated_array)
+							// this.setState({
+							// 	posts: updated_array
+							// });
 						} else if (this.props.location.state.filterByComment === true) {
 							console.log('most commented ran')
 							let updated_array = res.data;
@@ -69,20 +72,23 @@ class timeline extends React.Component {
 									}
 								}
 							);
-							this.setState({
-								posts: updated_array
-							});
+							this.props.refresh_post(updated_array)
+							// this.setState({
+							// 	posts: updated_array
+							// });
 						}
 						else {
-							this.setState({
-								posts: res.data
-							})
+							this.props.refresh_post(res.data)
+							// this.setState({
+							// 	posts: res.data
+							// })
 						}
 					}
 					else {
-						this.setState({
-							posts: res.data
-						})
+						this.props.refresh_post(res.data)
+						// this.setState({
+						// 	posts: res.data
+						// })
 					}
 				}
 			)
@@ -107,15 +113,17 @@ class timeline extends React.Component {
 									return {}
 								}
 							)
-							this.setState({
-								posts: updated_array
-							})
+							this.props.refresh_post(updated_array)
+							// this.setState({
+							// 	posts: updated_array
+							// })
 						}
 					}
 					else {
-						this.setState({
-							posts: res.data
-						})
+						this.props.refresh_post(res.data)
+						// this.setState({
+						// 	posts: res.data
+						// })
 					}
 				}
 			)
@@ -159,6 +167,7 @@ class timeline extends React.Component {
 
 	}
 	render() {
+		console.log('props data from redux in timeline.js - ', this.props.posts.posts);
 		return (
 			<div>
 				<div className="container">
@@ -167,9 +176,9 @@ class timeline extends React.Component {
 						<div className="content_lft">
 							<PostFilter1 Updater={this.Updater} />
 							{
-								this.state.posts.map(
+								this.props.posts.posts.map(
 									(value, index) => {
-										let d = new Date(this.state.posts[index].date);
+										let d = new Date(this.props.posts.posts[index].date);
 										d = d.toString()
 										let date = d.slice(8, 10) + ' ' + d.slice(4, 7) + ' ' + d.slice(11, 16);
 										let mm = d.slice(18, 21), hh = d.slice(16, 18), nn = '';
@@ -186,7 +195,7 @@ class timeline extends React.Component {
 										}
 										else { nn = 'AM' }
 										let time = hh + mm + ' ' + nn
-										let image = require('../fileUploads/' + this.state.posts[index].filename);
+										let image = require('../fileUploads/' + this.props.posts.posts[index].filename);
 										return (
 
 											<div className="contnt_2">
@@ -200,12 +209,12 @@ class timeline extends React.Component {
 															}
 														}}
 													>
-														<div className="div_title">{this.state.posts[index].title}</div>
+														<div className="div_title">{this.props.posts.posts[index].title}</div>
 														<div className="btm_rgt">
-															<div className="btm_arc">{this.state.posts[index].category}</div>
+															<div className="btm_arc">{this.props.posts.posts[index].category}</div>
 														</div>
 														<div className="div_top">
-															<div className="div_top_lft"><img src="images/img_6.png" alt='' />{this.state.posts[index].username}</div>
+															<div className="div_top_lft"><img src="images/img_6.png" alt='' />{this.props.posts.posts[index].username}</div>
 															<div className="div_top_rgt"><span className="span_date">{date}</span><span className="span_time">{time}</span></div>
 														</div>
 														<div className="div_image"><img src={image} alt="pet" /></div>
@@ -254,12 +263,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispach) => {
 	return {
-		refresh_post: () => dispach(refresh_post())
+		refresh_post: (newData) => dispach(refresh_post(newData))
 	}
 }
 
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-) 
-(timeline);
+)
+	(timeline);
