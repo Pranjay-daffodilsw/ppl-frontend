@@ -1,4 +1,6 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import store from '../redux/store';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import Login from '../components/auth/login';
@@ -13,22 +15,23 @@ export default class App extends React.Component {
         this.refs.head.refresh();
     }
     render() {
-        
+
         return (
             <div>
-                <Header ref='head' />
-                <Switch>
-                    <Route exact path='/single_post' component={Single_post} />
-                    {/* <Route path='/timeline' component={Timeline} /> */}
-                    <Route exact path='/login'
-                        render={(props) => <Login {...props} headerRefreshHandler={this.headerCommunicationHandler} />}
-                    />
-                    <Route exact path='/register' component={Register} />
-                    <Route exact path='/postupload' component={PostUpload} />
-                    <Route path='/' component={Timeline} />
-                    
-                </Switch>
-                <Footer />
+                <Provider store={store} >
+                    <Header ref='head' />
+                    <Switch>
+                        <Route exact path='/single_post' component={Single_post} />
+                        {/* <Route path='/timeline' component={Timeline} /> */}
+                        <Route exact path='/login'
+                            render={(props) => <Login {...props} headerRefreshHandler={this.headerCommunicationHandler} />}
+                        />
+                        <Route exact path='/register' component={Register} />
+                        <Route exact path='/postupload' component={PostUpload} />
+                        <Route path='/' component={Timeline} />
+                    </Switch>
+                    <Footer />
+                </Provider>
             </div>
         );
     }

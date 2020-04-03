@@ -85,7 +85,7 @@ export default (props) => {
 				setImage(require('../fileUploads/' + props.location.state.post.filename))
 			}
 		}
-		, [post]);
+		, []);
 
 	const submitHandler = (e) => {
 		e.preventDefault()
@@ -122,7 +122,6 @@ export default (props) => {
 		} else {
 			let action = '';
 			if (post.likes.includes(localStorage.getItem('user_id'))) {
-				// console.log('like includes current user');
 				action = 'pull';
 			} else {
 				action = 'push';
@@ -150,13 +149,10 @@ export default (props) => {
 
 	}
 
-	//console.log(post);
-	//alert(typeof (post));
 	if (redirect) {
 		return (<Redirect to="/timeline" ></Redirect>)
 	}
 	else {
-		console.log('console', post)
 		return (
 			<div>
 				<div className="container">

@@ -1,20 +1,25 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { connect } from "react-redux";
+import { refresh_post } from '../redux';
 import ContentRight from '../components/content_right';
 import PostFilter1 from '../components/post_filter1';
 import url from '../config/url';
 
-export default class timeline extends React.Component {
+class timeline extends React.Component {
 	constructor(props) {
 		super(props);
-		if(localStorage.getItem('loginTrue') === 'false' || localStorage.getItem('loginTrue') === null){
+		if (localStorage.getItem('loginTrue') === 'false' || localStorage.getItem('loginTrue') === null) {
 			props.history.push('/login')
 		}
 		this.state = {
 			posts: []
 		};
+
+		console.log('posts data from redux', props.posts);
 	}
+
 	Updater = () => {
 		axios.get(url.backendURL + url.paths.postGet)
 			.then(
@@ -208,17 +213,17 @@ export default class timeline extends React.Component {
 													<div className="div_btm">
 														<div className="btm_list">
 															<ul>
-																<li key={'share'+value._id}><Link><span className="btn_icon"><img src="images/icon_001.png" alt="share" /></span>Share</Link></li>
-																<li key={'flag'+value._id}><Link><span className="btn_icon"><img src="images/icon_002.png" alt="share" /></span>Flag</Link></li>
-																<li key={'like'+value._id}><Link onClick={() => this.likeButtonHandler(value)} ><span className="btn_icon"><img src="images/icon_003.png" alt="share" /></span>{value.likes.length} Likes</Link></li>
-																<li key={'comment'+value._id}><Link
-																to={{
-															pathname: '/single_post',
-															hash: value._id,
-															state: {
-																post: value
-															}
-														}}
+																<li key={'share' + value._id}><Link><span className="btn_icon"><img src="images/icon_001.png" alt="share" /></span>Share</Link></li>
+																<li key={'flag' + value._id}><Link><span className="btn_icon"><img src="images/icon_002.png" alt="share" /></span>Flag</Link></li>
+																<li key={'like' + value._id}><Link onClick={() => this.likeButtonHandler(value)} ><span className="btn_icon"><img src="images/icon_003.png" alt="share" /></span>{value.likes.length} Likes</Link></li>
+																<li key={'comment' + value._id}><Link
+																	to={{
+																		pathname: '/single_post',
+																		hash: value._id,
+																		state: {
+																			post: value
+																		}
+																	}}
 																><span className="btn_icon"><img src="images/icon_004.png" alt="share" /></span>{value.comments.length} Comments</Link></li>
 															</ul>
 														</div>
@@ -239,3 +244,22 @@ export default class timeline extends React.Component {
 	}
 }
 
+
+
+const mapStateToProps = (state) => {
+	return {
+		posts: state.post
+	}
+}
+
+const mapDispatchToProps = (dispach) => {
+	return {
+		refresh_post: () => dispach(refresh_post())
+	}
+}
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+) 
+(timeline);
