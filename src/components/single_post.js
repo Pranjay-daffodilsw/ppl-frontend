@@ -6,32 +6,30 @@ import url from '../config/url';
 import axios from 'axios';
 
 export default (props) => {
-
 	const [redirect, setRedirect] = useState(false);
 	const [usercommentmessage, setUsercommentmessage] = useState('');
-	const [post, setPost] = useState([]);
+	const [post, setPost] = useState({
+		comments: [],
+		likes: [],
+		_id: '',
+		date: 0,
+		user_id: '',
+		username: '',
+		title: '',
+		category: '',
+		filename: '',
+		mimetype: ''
+	});
 	const [userlikemessage, setUserlikemessage] = useState('');
-	
-	useEffect(
-		(props, pageRefreshHandler) => {
-			if (props.location === undefined || props.location.state === undefined) {
-				setRedirect(true);
-				setUsercommentmessage('');
-				setUserlikemessage('');
-			} else {
-				setRedirect(false);
-				setUsercommentmessage('');
-				setUserlikemessage('');
-				setPost(props.location.state.post);
-				pageRefreshHandler()
-			}
-		}
-	, [])
+	const [time, setTime] = useState('');
+	const [date, setDate] = useState('');
+	const [image, setImage] = useState(null);
 
-	const pageRefreshHandler = () => {
+	const pageRefreshHandler = (returnTrue) => {
+		console.log('pageRefreshHandler fired');
 		let query_data;
 		if (props.location.state === undefined) {
-			query_data = { params: { _id: post._id } }
+			query_data = { params: { _id: props.location.hash.slice(1) } }
 		}
 		else {
 			query_data = { params: { _id: props.location.state.post._id } }
@@ -40,7 +38,11 @@ export default (props) => {
 			.then(
 				(res) => {
 					console.log('(single_post) axios response - ', res.data)
-					setPost(res.data[0]);
+					if (returnTrue === true) {
+						return res.data[0];
+					} else {
+						setPost(res.data[0]);
+					}
 				}
 			)
 			.catch(
@@ -49,6 +51,42 @@ export default (props) => {
 				}
 			)
 	}
+
+	useEffect(
+		() => {
+			console.log('first useEffect fired', props)
+			if (props.location === undefined || props.location.state === undefined) {
+				setRedirect(true);
+				setUsercommentmessage('');
+				setUserlikemessage('');
+			} else {
+				setRedirect(false);
+				setUsercommentmessage('');
+				setUserlikemessage('');
+				console.log('required console', props.location.state.post)
+				setPost(props.location.state.post);
+				let d = new Date(props.location.state.post.date);
+				d = d.toString()
+				setDate(d.slice(8, 10) + ' ' + d.slice(4, 7) + ' ' + d.slice(11, 16));
+				let mm = d.slice(18, 21), hh = d.slice(16, 18), nn = '';
+				if (hh > 12) {
+					hh = String(Number(hh) - 12);
+					nn = 'PM'
+				}
+				else if (hh === '12') {
+					nn = 'PM';
+				}
+				else if (hh === '00') {
+					hh = '12';
+					nn = 'AM';
+				}
+				else { nn = 'AM' }
+				setTime(hh + mm + ' ' + nn)
+				setImage(require('../fileUploads/' + props.location.state.post.filename))
+			}
+		}
+		, [post]);
+
 	const submitHandler = (e) => {
 		e.preventDefault()
 		if (localStorage.getItem('loginTrue') === 'false') {
@@ -112,32 +150,13 @@ export default (props) => {
 
 	}
 
-	
-
+	//console.log(post);
+	//alert(typeof (post));
 	if (redirect) {
 		return (<Redirect to="/timeline" ></Redirect>)
 	}
 	else {
-		let d = new Date(post.date);
-		d = d.toString()
-		let date = d.slice(8, 10) + ' ' + d.slice(4, 7) + ' ' + d.slice(11, 16);
-		let mm = d.slice(18, 21), hh = d.slice(16, 18), nn = '';
-		if (hh > 12) {
-			hh = String(Number(hh) - 12);
-			nn = 'PM'
-		}
-		else if (hh === '12') {
-			nn = 'PM';
-		}
-		else if (hh === '00') {
-			hh = '12';
-			nn = 'AM';
-		}
-		else { nn = 'AM' }
-		let time = hh + mm + ' ' + nn
-		console.log('../fileUploads/', post.filename)
-		let image = require('../fileUploads/' + post.filename);
-
+		console.log('console', post)
 		return (
 			<div>
 				<div className="container">
