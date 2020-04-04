@@ -1,1 +1,1 @@
-export const REFRESH_POST = 'REFRESH POST';
+export const REFRESH_POST = 'REFRESH_POST_ASYNC';

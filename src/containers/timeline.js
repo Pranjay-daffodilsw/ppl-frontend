@@ -113,17 +113,13 @@ class timeline extends React.Component {
 									return {}
 								}
 							)
-							this.props.refresh_post(updated_array)
-							// this.setState({
-							// 	posts: updated_array
-							// })
+							this.props.refresh_post([])
+							// updated_array
 						}
 					}
 					else {
-						this.props.refresh_post(res.data)
-						// this.setState({
-						// 	posts: res.data
-						// })
+						this.props.refresh_post([])
+						// res.data
 					}
 				}
 			)
