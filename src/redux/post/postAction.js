@@ -1,4 +1,4 @@
-import { REFRESH_POST } from './postTypes';
+import { REFRESH_POST } from './postActionTypes';
 
 export const refresh_post = ( posts = [] ) => {
     return {

@@ -17,7 +17,7 @@ function* getPostAsync() {
 				console.log('axios error', err);
 			}
 		)
-		console.log('payload - ', payload)
+	console.log('payload - ', payload)
 	yield put({
 		type: 'REFRESH_POST_ASYNC',
 		payload: payload
