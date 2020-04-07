@@ -1,32 +1,27 @@
-import { takeEvery, put, delay } from 'redux-saga/effects';
+import { takeEvery, put, call } from 'redux-saga/effects';
 import axios from 'axios';
+import { REFRESH_POST } from "../redux/post/postActionTypes";
 import url from "../config/url";
 
-function* getPostAsync() {
-	yield delay(2000);
-	let payload;
-	axios.get(url.backendURL + url.paths.postGet)
-		.then(
-			(res) => {
-				console.log(res.data);
-				payload = res.data
-			}
-		)
-		.catch(
-			(err) => {
-				console.log('axios error', err);
-			}
-		)
-	console.log('payload - ', payload)
-	yield put({
-		type: 'REFRESH_POST_ASYNC',
-		payload: payload
-	})
+function getPostAsync() {
+	console.log('getPostAsync function called - ');
+	return axios.get(url.backendURL + url.paths.postGet);
 }
-
 
 
 export function* watchRefreshPost() {
 	console.log('watchRefreshPost function called +++++++++++++++');
-	yield takeEvery("REFRESH_POST", getPostAsync);
+	try{
+		let result = yield call(getPostAsync);
+		yield put({
+			type: REFRESH_POST,
+			result: result.data
+		})
+	}
+	catch(e){
+		console.error('saga.js error - ', e);
+	}
+	
+	// yield [ 'an empty array' ]
+	// yield takeEvery("REFRESH_POST", getPostAsync);
 }

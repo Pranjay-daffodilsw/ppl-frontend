@@ -163,7 +163,7 @@ class timeline extends React.Component {
 
 	}
 	render() {
-		console.log('props data from redux in timeline.js - ', this.props.posts.posts);
+		console.log('props data from redux in timeline.js - ', this.props);
 		return (
 			<div>
 				<div className="container">
@@ -171,7 +171,7 @@ class timeline extends React.Component {
 						<ContentRight Updater={this.Updater} />
 						<div className="content_lft">
 							<PostFilter1 Updater={this.Updater} />
-							{
+							{/* {
 								this.props.posts.posts.map(
 									(value, index) => {
 										let d = new Date(this.props.posts.posts[index].date);
@@ -239,7 +239,7 @@ class timeline extends React.Component {
 										)
 									}
 								)
-							}
+							} */}
 						</div>
 					</div>
 					<div className="clear" />

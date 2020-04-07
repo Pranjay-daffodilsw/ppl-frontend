@@ -1,6 +1,8 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import store from '../redux/store';
+import store /*, { sagaMiddleware }*/ from '../redux/store';
+//import { watchRefreshPost } from "../sagas/saga";
+
 import Header from '../components/header';
 import Footer from '../components/footer';
 import Login from '../components/auth/login';
@@ -9,6 +11,8 @@ import Register from '../components/auth/register';
 import Timeline from '../containers/timeline';
 import PostUpload from '../components/postUpload';
 import Single_post from '../components/single_post';
+
+//sagaMiddleware.run(watchRefreshPost);
 
 export default class App extends React.Component {
     headerCommunicationHandler = () => {
