@@ -149,10 +149,10 @@ class timeline extends React.Component {
 						<ContentRight Updater={this.Updater} />
 						<div className="content_lft">
 							<PostFilter1 Updater={this.Updater} />
-							{/* {
-								this.props.posts.posts.map(
+							{
+								this.props.posts.map(
 									(value, index) => {
-										let d = new Date(this.props.posts.posts[index].date);
+										let d = new Date(this.props.posts[index].date);
 										d = d.toString()
 										let date = d.slice(8, 10) + ' ' + d.slice(4, 7) + ' ' + d.slice(11, 16);
 										let mm = d.slice(18, 21), hh = d.slice(16, 18), nn = '';
@@ -169,7 +169,7 @@ class timeline extends React.Component {
 										}
 										else { nn = 'AM' }
 										let time = hh + mm + ' ' + nn
-										let image = require('../fileUploads/' + this.props.posts.posts[index].filename);
+										let image = require('../fileUploads/' + this.props.posts[index].filename);
 										return (
 
 											<div className="contnt_2">
@@ -183,12 +183,12 @@ class timeline extends React.Component {
 															}
 														}}
 													>
-														<div className="div_title">{this.props.posts.posts[index].title}</div>
+														<div className="div_title">{this.props.posts[index].title}</div>
 														<div className="btm_rgt">
-															<div className="btm_arc">{this.props.posts.posts[index].category}</div>
+															<div className="btm_arc">{this.props.posts[index].category}</div>
 														</div>
 														<div className="div_top">
-															<div className="div_top_lft"><img src="images/img_6.png" alt='' />{this.props.posts.posts[index].username}</div>
+															<div className="div_top_lft"><img src="images/img_6.png" alt='' />{this.props.posts[index].username}</div>
 															<div className="div_top_rgt"><span className="span_date">{date}</span><span className="span_time">{time}</span></div>
 														</div>
 														<div className="div_image"><img src={image} alt="pet" /></div>
@@ -217,7 +217,7 @@ class timeline extends React.Component {
 										)
 									}
 								)
-							} */}
+							}
 						</div>
 					</div>
 					<div className="clear" />
@@ -232,7 +232,7 @@ class timeline extends React.Component {
 const mapStateToProps = (state) => {
 	console.log('mapStateToProps state - ', state)
 	return {
-		posts: state.post
+		posts: state.post.posts
 	}
 }
 
