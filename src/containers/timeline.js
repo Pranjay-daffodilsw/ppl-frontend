@@ -13,10 +13,6 @@ class timeline extends React.Component {
 		if (localStorage.getItem('loginTrue') === 'false' || localStorage.getItem('loginTrue') === null) {
 			props.history.push('/login')
 		}
-		// this.state = {
-		// 	posts: []
-		// };
-
 		console.log('posts data from redux', props.posts);
 	}
 
@@ -36,14 +32,8 @@ class timeline extends React.Component {
 								}
 							)
 							this.props.refresh_post(updated_array)
-							// this.setState({
-							// 	posts: updated_array
-							// })
 						} else if (this.props.location.state.filterByDate === true) {
 							this.props.refresh_post(res.data.reverse())
-							// this.setState({
-							// 	posts: res.data.reverse()
-							// });
 						} else if (this.props.location.state.filterByLike === true) {
 							console.log('most liked ran')
 							let updated_array = res.data;
@@ -57,9 +47,6 @@ class timeline extends React.Component {
 								}
 							);
 							this.props.refresh_post(updated_array)
-							// this.setState({
-							// 	posts: updated_array
-							// });
 						} else if (this.props.location.state.filterByComment === true) {
 							console.log('most commented ran')
 							let updated_array = res.data;
@@ -73,22 +60,13 @@ class timeline extends React.Component {
 								}
 							);
 							this.props.refresh_post(updated_array)
-							// this.setState({
-							// 	posts: updated_array
-							// });
 						}
 						else {
 							this.props.refresh_post(res.data)
-							// this.setState({
-							// 	posts: res.data
-							// })
 						}
 					}
 					else {
 						this.props.refresh_post(res.data)
-						// this.setState({
-						// 	posts: res.data
-						// })
 					}
 				}
 			)
@@ -128,7 +106,7 @@ class timeline extends React.Component {
 					console.log('axios error', err);
 				}
 			)
-		console.log('state values timeline - ', this.state);
+		// console.log('state values timeline - ', this.state);
 	}
 	likeButtonHandler = (value) => {
 		if (localStorage.getItem('loginTrue') === 'false') {
@@ -252,6 +230,7 @@ class timeline extends React.Component {
 
 
 const mapStateToProps = (state) => {
+	console.log('mapStateToProps state - ', state)
 	return {
 		posts: state.post
 	}
