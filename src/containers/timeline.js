@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
-import { refresh_post } from '../redux';
+import { refresh_post, load_post } from '../redux';
 import ContentRight from '../components/content_right';
 import PostFilter1 from '../components/post_filter1';
 import url from '../config/url';
@@ -91,12 +91,12 @@ class timeline extends React.Component {
 									return {}
 								}
 							)
-							this.props.refresh_post([])
+							this.props.load_post()
 							// updated_array
 						}
 					}
 					else {
-						this.props.refresh_post([])
+						this.props.load_post()
 						// res.data
 					}
 				}
@@ -238,7 +238,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispach) => {
 	return {
-		refresh_post: (newData) => dispach(refresh_post(newData))
+		refresh_post: (newData) => dispach(refresh_post(newData)),
+		load_post: () => dispach(load_post())
 	}
 }
 
