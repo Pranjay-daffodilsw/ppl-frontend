@@ -2,13 +2,10 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 export default (props) => {
-
     const [loginTrue, setLoginTrue] = useState(localStorage.getItem('loginTrue'));
-
     const refresh = () => {
         setLoginTrue(localStorage.getItem('loginTrue'));
     }
-
     const logoutHandler = () => {
         localStorage.setItem('loginTrue', false);
         localStorage.removeItem('user_id');
@@ -18,20 +15,18 @@ export default (props) => {
         localStorage.removeItem('email');
         setLoginTrue(false);
     }
-
-
     let username = '';
     let navigationLinks;
     if (loginTrue === 'true') {
         username = localStorage.getItem('username');
         navigationLinks = (
-            <li><Link style={{ color: "white" }} onClick={logoutHandler} to='/login'>Logout</Link></li>
+            <li key={'logout'}><Link style={{ color: "white" }} onClick={logoutHandler} to='/login'>&nbsp;Logout</Link></li>
         );
     }
     else {
         username = 'Unregistered';
         navigationLinks = (
-            <li><Link to={{ pathname: '/login' }} className='active'></Link></li>
+            <li key={'login'}><Link to={{ pathname: '/login' }} className='active'>Login</Link></li>
         );
     }
     return (
@@ -69,8 +64,7 @@ export default (props) => {
                     <div className="logo"><Link to="/"><img src="images/logo.png" alt='' /></Link></div>
                     <div className="navigatn">
                         <ul>
-                            <li key='home'><Link to={{ pathname: '/timeline' }} className='active' style={{ marginLeft: 13 }}>Home</Link></li>
-                            
+                            <li key='home'><Link to={{ pathname: '/timeline' }} className='active' style={{ marginLeft: 13 }}>Home</Link></li>  
                         </ul>
                     </div>
                 </div>
@@ -82,15 +76,12 @@ export default (props) => {
                         <div className="image_div"> <img src="images/pic.png" alt='' /> </div>
                         <div style={{ color: "white", marginTop: 12, marginLeft: "56%" }}>
                             {username}
-
                         </div>
-
                     </div>
                     <div style={{ color: "white", marginTop: 13, marginLeft: "50%" }}>
+                        
                         {navigationLinks}
-
                     </div>
-
                 </div>
             </div>
         </div>

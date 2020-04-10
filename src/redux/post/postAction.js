@@ -1,19 +1,16 @@
-import { REFRESH_POST, REFRESH_POST_ASYNC, LOAD_POST } from './postActionTypes';
+import { REFRESH_POST, LOAD_POST } from './postActionTypes';
 
-export const refresh_post = ( posts = [] ) => {
+export const refresh_post = ( posts = [], loadFresh = false ) => {
     console.log('refresh_post action posts - ', posts);
     return {
         type: REFRESH_POST,
-        payload: posts
+        payload: {
+            data: posts,
+            loadFresh: loadFresh
+        }
     }
 }
-export const refresh_post_async = ( posts = [] ) => {
-    console.log('refresh_post_async called -', posts)
-    return {
-        type: REFRESH_POST_ASYNC,
-        payload: posts
-    }
-}
+
 export const load_post = ( posts = [] ) => {
     return {
         type: LOAD_POST,

@@ -13,100 +13,82 @@ class timeline extends React.Component {
 		if (localStorage.getItem('loginTrue') === 'false' || localStorage.getItem('loginTrue') === null) {
 			props.history.push('/login')
 		}
-		console.log('posts data from redux', props.posts);
 	}
 
 	Updater = () => {
-		axios.get(url.backendURL + url.paths.postGet)
-			.then(
-				(res) => {
-					if (this.props.location.state !== undefined && this.props.location.state.filter === true) {
-						if (this.props.location.state.filterByCategory === true) {
-							let updated_array = []
-							res.data.map(
-								(value, index) => {
-									if (value.category === this.props.location.hash.slice(1)) {
-										updated_array.push(value)
-									}
-									return {}
-								}
-							)
-							this.props.refresh_post(updated_array)
-						} else if (this.props.location.state.filterByDate === true) {
-							this.props.refresh_post(res.data.reverse())
-						} else if (this.props.location.state.filterByLike === true) {
-							console.log('most liked ran')
-							let updated_array = res.data;
-							let maxLike = 0;
-							res.data.forEach(
-								(item, index) => {
-									if (item.likes.length > maxLike) {
-										maxLike = item.likes.length
-										updated_array = [item]
-									}
-								}
-							);
-							this.props.refresh_post(updated_array)
-						} else if (this.props.location.state.filterByComment === true) {
-							console.log('most commented ran')
-							let updated_array = res.data;
-							let maxComment = 0;
-							res.data.forEach(
-								(item, index) => {
-									if (item.comments.length > maxComment) {
-										maxComment = item.comments.length
-										updated_array = [item]
-									}
-								}
-							);
-							this.props.refresh_post(updated_array)
+		if (this.props.location.state != undefined && this.props.location.state.filter === true) {
+			if (this.props.location.state.filterByCategory === true) {
+				console.log('filter by category')
+				let updated_array = []
+				this.props.postsCurrent.map(
+					(value, index) => {
+						if (value.category === this.props.location.hash.slice(1)) {
+							updated_array.push(value)
 						}
-						else {
-							this.props.refresh_post(res.data)
+						return {}
+					}
+				)
+				this.props.refresh_post(updated_array)
+			} else if (this.props.location.state.filterByDate === true) {
+				console.log('filterbydate')
+				this.props.refresh_post(this.props.postsCurrent.reverse())
+			} else if (this.props.location.state.filterByLike === true) {
+				console.log('filter by date')
+				let updated_array = this.props.posts;
+				let maxLike = 0;
+				this.props.postsCurrent.forEach(
+					(item, index) => {
+						if (item.likes.length > maxLike) {
+							maxLike = item.likes.length
+							updated_array = [item]
 						}
 					}
-					else {
-						this.props.refresh_post(res.data)
+				);
+				this.props.refresh_post(updated_array)
+			} else if (this.props.location.state.filterByComment === true) {
+				console.log('filter by comment')
+				let updated_array = this.props.postsCurrent;
+				let maxComment = 0;
+				this.props.postsCurrent.forEach(
+					(item, index) => {
+						if (item.comments.length > maxComment) {
+							maxComment = item.comments.length
+							updated_array = [item]
+						}
 					}
-				}
-			)
-			.catch(
-				(err) => {
-					console.error('axios error', err);
-				}
-			)
+				);
+				this.props.refresh_post(updated_array)
+			}
+			else {
+				console.log('else statement 1')
+				this.props.load_post()
+			}
+		}
+		else {
+			console.log('else statement 2', this.props.location.state.filter === true )
+			this.props.load_post()
+		}
 	}
 	componentDidMount() {
-		axios.get(url.backendURL + url.paths.postGet)
-			.then(
-				(res) => {
-					if (this.props.location.state !== undefined && this.props.location.state.filter === true) {
-						if (this.props.location.state.filterByCategory) {
-							let updated_array = []
-							res.data.map(
-								(value, index) => {
-									if (value.category === this.props.location.hash.slice(1)) {
-										updated_array.push(value)
-									}
-									return {}
-								}
-							)
-							this.props.load_post()
-							// updated_array
-						}
-					}
-					else {
-						this.props.load_post()
-						// res.data
-					}
-				}
-			)
-			.catch(
-				(err) => {
-					console.log('axios error', err);
-				}
-			)
-		// console.log('state values timeline - ', this.state);
+
+		if (this.props.location.state !== undefined && this.props.location.state.filter === true) {
+			if (this.props.location.state.filterByCategory) {
+				let updated_array = []
+				// res.data.map(
+				// 	(value, index) => {
+				// 		if (value.category === this.props.location.hash.slice(1)) {
+				// 			updated_array.push(value)
+				// 		}
+				// 		return {}
+				// 	}
+				// )
+				this.props.load_post()
+				// updated_array
+			}
+		}
+		else {
+			this.props.load_post()
+		}
 	}
 	likeButtonHandler = (value) => {
 		if (localStorage.getItem('loginTrue') === 'false') {
@@ -232,6 +214,7 @@ class timeline extends React.Component {
 const mapStateToProps = (state) => {
 	console.log('mapStateToProps state - ', state)
 	return {
+		postsCurrent: state.post.postsCurrent,
 		posts: state.post.posts
 	}
 }
