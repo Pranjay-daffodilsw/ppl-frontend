@@ -65,30 +65,30 @@ class timeline extends React.Component {
 			}
 		}
 		else {
-			console.log('else statement 2', this.props.location.state.filter === true )
+			console.log('else statement 2')
 			this.props.load_post()
 		}
 	}
 	componentDidMount() {
 
-		if (this.props.location.state !== undefined && this.props.location.state.filter === true) {
-			if (this.props.location.state.filterByCategory) {
-				let updated_array = []
-				// res.data.map(
-				// 	(value, index) => {
-				// 		if (value.category === this.props.location.hash.slice(1)) {
-				// 			updated_array.push(value)
-				// 		}
-				// 		return {}
-				// 	}
-				// )
-				this.props.load_post()
-				// updated_array
-			}
-		}
-		else {
-			this.props.load_post()
-		}
+		// if (this.props.location.state !== undefined && this.props.location.state.filter === true) {
+		// 	if (this.props.location.state.filterByCategory) {
+		// 		let updated_array = []
+		// 		// res.data.map(
+		// 		// 	(value, index) => {
+		// 		// 		if (value.category === this.props.location.hash.slice(1)) {
+		// 		// 			updated_array.push(value)
+		// 		// 		}
+		// 		// 		return {}
+		// 		// 	}
+		// 		// )
+		// 		this.props.load_post()
+		// 		// updated_array
+		// 	}
+		// }
+		// else {
+		this.props.load_post()
+		// }
 	}
 	likeButtonHandler = (value) => {
 		if (localStorage.getItem('loginTrue') === 'false') {
