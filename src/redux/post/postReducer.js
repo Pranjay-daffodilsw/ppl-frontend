@@ -1,4 +1,4 @@
-import { REFRESH_POST,  LOAD_POST } from './postActionTypes';
+import { REFRESH_POST, LOAD_POST } from './postActionTypes';
 
 const initialState = {
     posts: [],
@@ -7,17 +7,17 @@ const initialState = {
 
 const postReducer = (state = initialState, action) => {
     console.log('postReducer() arguments', state, action)
-    
-    switch(action.type){
+
+    switch (action.type) {
         case REFRESH_POST: {
             console.log(action.payload.loadFresh);
             return {
                 ...state,
                 posts: action.payload.data,
-                postsCurrent: action.payload.loadFresh? action.payload.data : state.postsCurrent
+                postsCurrent: action.payload.loadFresh ? action.payload.data : state.postsCurrent
             }
         }
-        
+
         case LOAD_POST: return {
             ...state,
             postsCurrent: action.payload,

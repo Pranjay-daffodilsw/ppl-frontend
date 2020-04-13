@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom'
 
 export default (props) => {
     const [loginTrue, setLoginTrue] = useState(localStorage.getItem('loginTrue'));
+    const dispatch = useDispatch();
     const refresh = () => {
         setLoginTrue(localStorage.getItem('loginTrue'));
     }
@@ -89,3 +91,4 @@ export default (props) => {
 
 
 }
+

@@ -1,18 +1,16 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import store /*, { sagaMiddleware }*/ from '../redux/store';
-//import { watchRefreshPost } from "../sagas/saga";
+import store from '../redux/store';
 
 import Header from '../components/header';
 import Footer from '../components/footer';
 import Login from '../components/auth/login';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Register from '../components/auth/register';
 import Timeline from '../containers/timeline';
 import PostUpload from '../components/postUpload';
 import Single_post from '../components/single_post';
 
-//sagaMiddleware.run(watchRefreshPost);
 
 export default class App extends React.Component {
     headerCommunicationHandler = () => {
@@ -32,7 +30,8 @@ export default class App extends React.Component {
                         />
                         <Route exact path='/register' component={Register} />
                         <Route exact path='/postupload' component={PostUpload} />
-                        <Route path='/' component={Timeline} />
+                        <Route exact path='/timeline' component={Timeline} />
+                        <Redirect from='/' to='/timeline'/>
                     </Switch>
                     <Footer />
                 </Provider>

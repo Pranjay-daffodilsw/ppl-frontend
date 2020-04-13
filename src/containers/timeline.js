@@ -14,9 +14,13 @@ class timeline extends React.Component {
 			props.history.push('/login')
 		}
 	}
-
+	componentDidMount() {
+    this.Updater()
+		// this.props.load_post()
+	}
 	Updater = () => {
-		if (this.props.location.state != undefined && this.props.location.state.filter === true) {
+    console.log('ttttt - ', (typeof this.props.location.state !== "undefined"))
+		if ((typeof this.props.location.state !== "undefined") && (this.props.location.state.filter === true)) {
 			if (this.props.location.state.filterByCategory === true) {
 				console.log('filter by category')
 				let updated_array = []
@@ -33,8 +37,8 @@ class timeline extends React.Component {
 				console.log('filterbydate')
 				this.props.refresh_post(this.props.postsCurrent.reverse())
 			} else if (this.props.location.state.filterByLike === true) {
-				console.log('filter by date')
-				let updated_array = this.props.posts;
+				console.log('filter by like')
+				let updated_array = this.props.postsCurrent;
 				let maxLike = 0;
 				this.props.postsCurrent.forEach(
 					(item, index) => {
@@ -69,27 +73,7 @@ class timeline extends React.Component {
 			this.props.load_post()
 		}
 	}
-	componentDidMount() {
 
-		// if (this.props.location.state !== undefined && this.props.location.state.filter === true) {
-		// 	if (this.props.location.state.filterByCategory) {
-		// 		let updated_array = []
-		// 		// res.data.map(
-		// 		// 	(value, index) => {
-		// 		// 		if (value.category === this.props.location.hash.slice(1)) {
-		// 		// 			updated_array.push(value)
-		// 		// 		}
-		// 		// 		return {}
-		// 		// 	}
-		// 		// )
-		// 		this.props.load_post()
-		// 		// updated_array
-		// 	}
-		// }
-		// else {
-		this.props.load_post()
-		// }
-	}
 	likeButtonHandler = (value) => {
 		if (localStorage.getItem('loginTrue') === 'false') {
 			alert('You are not logged in to like this post');
@@ -123,7 +107,7 @@ class timeline extends React.Component {
 
 	}
 	render() {
-		console.log('props data from redux in timeline.js - ', this.props);
+		console.log('props in timeline.js - ', this.props);
 		return (
 			<div>
 				<div className="container">
@@ -195,7 +179,6 @@ class timeline extends React.Component {
 													</div>
 												</div>
 											</div>
-
 										)
 									}
 								)
