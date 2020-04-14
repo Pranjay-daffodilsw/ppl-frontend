@@ -16,7 +16,6 @@ class timeline extends React.Component {
 	}
 	componentDidMount() {
     this.Updater()
-		// this.props.load_post()
 	}
 	Updater = () => {
     console.log('ttttt - ', (typeof this.props.location.state !== "undefined"))

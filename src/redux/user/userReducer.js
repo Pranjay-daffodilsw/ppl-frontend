@@ -1,7 +1,9 @@
 import { UPDATE_USER_DATA } from './userActionTypes';
 
 const initialState = {
-    loginTrue: false
+    loginStatus: {
+        loginTrue: false
+    }
 }
 
 const userReducer = (state = initialState, action) => {
@@ -9,7 +11,7 @@ const userReducer = (state = initialState, action) => {
         case UPDATE_USER_DATA:
             return {
                 ...state,
-                loginStatus: action.payload.loginStatus
+                loginStatus: action.payload
             }
         default: return state
     }

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+import { update_user_data } from '../../redux';
 import url from '../../config/url';
 
 export default (
@@ -9,6 +11,7 @@ export default (
 		const [password, setPassword] = useState(null);
 		const [emailUserMessage, setEmailUserMessage] = useState('');
 		const [passwordUserMessage, setPasswordUserMessage] = useState('');
+		const dispatch = useDispatch();
 		const history = useHistory();
 		const OnChangeLoginHandler = (e) => {
 			if (e.target.name === 'email') {
@@ -37,7 +40,12 @@ export default (
 						localStorage.setItem('email', res.data.userInfo.email);
 						setPasswordUserMessage('');
 						setEmailUserMessage('');
-						props.headerRefreshHandler();
+						// props.headerRefreshHandler();
+						dispatch(update_user_data({
+							loginStatus: {
+								loginTrue: true
+							}
+						}));
 						history.push('/timeline');
 					}
 					else if (res.data.emailMatch) {
@@ -68,7 +76,7 @@ export default (
 										<strong style={{ color: 'tomato' }}>{emailUserMessage}</strong>
 										<li key='password'><span>Password</span><input type="password" onChange={OnChangeLoginHandler} placeholder="Enter your password" name='password' required /></li>
 										<strong style={{ color: 'tomato' }}>{passwordUserMessage}</strong>
-										<li key='subimt'><input type="submit" defaultValue="Log In" /><a href>Forgot Password</a></li>
+										<li key='subimt'><input type="submit" defaultValue="Log In" /><Link>Forgot Password</Link></li>
 									</ul>
 								</form>
 								<div className="addtnal_acnt">I do not have any account yet.<Link to='/register'>Create My Account Now !</Link></div>

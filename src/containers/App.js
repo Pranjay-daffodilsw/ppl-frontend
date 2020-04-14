@@ -13,15 +13,11 @@ import Single_post from '../components/single_post';
 
 
 export default class App extends React.Component {
-    headerCommunicationHandler = () => {
-        this.refs.head.refresh();
-    }
     render() {
-
         return (
             <div>
                 <Provider store={store} >
-                    <Header ref='head' />
+                    <Header />
                     <Switch>
                         <Route exact path='/single_post' component={Single_post} />
                         {/* <Route path='/timeline' component={Timeline} /> */}

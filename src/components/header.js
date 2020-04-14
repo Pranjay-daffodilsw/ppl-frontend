@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom'
+import { update_user_data } from "../redux";
 
 export default (props) => {
-    const [loginTrue, setLoginTrue] = useState(localStorage.getItem('loginTrue'));
+    const loginTrue = useSelector(state => state.user.loginStatus.loginTrue)
     const dispatch = useDispatch();
-    const refresh = () => {
-        setLoginTrue(localStorage.getItem('loginTrue'));
-    }
+    dispatch(update_user_data({
+        loginTrue: localStorage.getItem('loginTrue')
+    }))
     const logoutHandler = () => {
         localStorage.setItem('loginTrue', false);
         localStorage.removeItem('user_id');
@@ -15,7 +16,9 @@ export default (props) => {
         localStorage.removeItem('lname');
         localStorage.removeItem('fname');
         localStorage.removeItem('email');
-        setLoginTrue(false);
+        dispatch(update_user_data({
+            loginTrue: false
+        }));
     }
     let username = '';
     let navigationLinks;
@@ -28,8 +31,9 @@ export default (props) => {
     else {
         username = 'Unregistered';
         navigationLinks = (
-            <li key={'login'}><Link to={{ pathname: '/login' }} className='active'>Login</Link></li>
+            <li key={'login'}></li>
         );
+        // <Link to={{ pathname: '/login' }} className='active'>Login</Link>
     }
     return (
         <div>
@@ -80,8 +84,7 @@ export default (props) => {
                             {username}
                         </div>
                     </div>
-                    <div style={{ color: "white", marginTop: 13, marginLeft: "50%" }}>
-                        
+                    <div style={{ color: "white", marginTop: 13, marginLeft: "50%" }}>                        
                         {navigationLinks}
                     </div>
                 </div>
