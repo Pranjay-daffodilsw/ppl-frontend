@@ -17,7 +17,15 @@ class timeline extends React.Component {
 	componentDidMount() {
     this.Updater()
 	}
-	Updater = () => {
+	Updater = (
+		args = {
+			filter: false,
+			filterByCategory: false,
+			filterByDate: false,
+			filterByLike: false,
+			filterByComment: false
+		}
+	) => {
     console.log('ttttt - ', (typeof this.props.location.state !== "undefined"))
 		if ((typeof this.props.location.state !== "undefined") && (this.props.location.state.filter === true)) {
 			if (this.props.location.state.filterByCategory === true) {

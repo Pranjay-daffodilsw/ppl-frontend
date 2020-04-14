@@ -10,7 +10,7 @@ const postReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case REFRESH_POST: {
-            console.log(action.payload.loadFresh);
+            console.log('REFRESH_POST', action.payload.loadFresh);
             return {
                 ...state,
                 posts: action.payload.data,
@@ -18,11 +18,13 @@ const postReducer = (state = initialState, action) => {
             }
         }
 
-        case LOAD_POST: return {
-            ...state,
-            postsCurrent: action.payload,
-            posts: action.payload
-        }
+        // case LOAD_POST:
+        //     console.log('LOAD_POST')
+        //     return {
+        //         ...state,
+        //         postsCurrent: action.payload,
+        //         posts: action.payload
+        //     }
         default: return state
     }
 }

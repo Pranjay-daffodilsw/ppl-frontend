@@ -20,9 +20,8 @@ export default class App extends React.Component {
                     <Header />
                     <Switch>
                         <Route exact path='/single_post' component={Single_post} />
-                        {/* <Route path='/timeline' component={Timeline} /> */}
                         <Route exact path='/login'
-                            render={(props) => <Login {...props} headerRefreshHandler={this.headerCommunicationHandler} />}
+                            render={(props) => <Login {...props}  />}
                         />
                         <Route exact path='/register' component={Register} />
                         <Route exact path='/postupload' component={PostUpload} />

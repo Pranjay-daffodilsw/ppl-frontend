@@ -84,7 +84,8 @@ export default withRouter(
 			<div>
 				<div className="container">
 					<div className="content">
-						<ContentRight Updater={props.Updater} />
+						
+						{/* <ContentRight Updater={props.Updater} /> */}
 						<div className="content_lft">
 							<div className="contnt_1">
 								<div className="timeline_div">
