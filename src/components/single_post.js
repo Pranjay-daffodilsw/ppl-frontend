@@ -206,7 +206,7 @@ export default (props) => {
 									<li>
 										<div className="cmnt_div1">
 											<form onSubmit={submitHandler} id='commentform' method='post'>
-												<input type="text" defaultValue="Enter your Comment" className="cmnt_bx1" name='text' required />
+												<input type="text" placeholder="Enter your Comment" className="cmnt_bx1" name='text' required />
 												<input type="submit" className="sub_bttn1" defaultValue="Submit Comment" name='submit' />
 											</form>
 										</div>

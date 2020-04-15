@@ -5,6 +5,7 @@ import AddCategory from './addcategory';
 import PostFilter2 from './post_filter2';
 import Featured from './featured';
 import url from '../config/url';
+import PostUpload from './postUpload';
 
 export default (props) => {
 	const [categoryList, setCategoryList] = useState([]);
@@ -41,6 +42,7 @@ export default (props) => {
 				</span>
 			<Link to='/postupload'>Upload Post</Link>
 			</div>
+			<PostUpload />
 			<AddCategory categoryList={categoryList} />
 			<PostFilter2 categoryList={categoryList} Updater={props.Updater} />
 			<Featured />

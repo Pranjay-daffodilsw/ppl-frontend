@@ -1,4 +1,4 @@
-import { REFRESH_POST, LOAD_POST } from './postActionTypes';
+import { REFRESH_POST } from './postActionTypes';
 
 const initialState = {
     posts: [],
