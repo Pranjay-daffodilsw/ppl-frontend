@@ -59,7 +59,7 @@ export default () => {
 		}
 	}
 	return (
-		<div className="contnt_1">
+		<div className="contnt_1" style={{}} >
 			<div className='post_div'>
 				<div className='post_list'>
 					<ul>

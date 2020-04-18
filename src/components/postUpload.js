@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import url from '../config/url';
+import { findAllByPlaceholderText } from '@testing-library/react';
 
 export default withRouter(
 	(props) => {
@@ -57,7 +58,7 @@ export default withRouter(
 		}
 
 		return (
-			<div style={{zIndex:100}}>
+			<div style={{ }}>
 				<div className="popup_sec" id="pop_forgt">
 					<div className="contnt_1">
 						<div className="timeline_div1">

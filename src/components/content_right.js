@@ -32,7 +32,7 @@ export default (props) => {
 		[]
 	);
 	return (
-		<div className="content_rgt">
+		<div className="content_rgt" style={{}} >
 			<div className="rght_btn">
 				<span className="rght_btn_icon">
 					<img src="images/btn_iconb.png" alt="up" />
