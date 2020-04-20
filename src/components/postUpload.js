@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { toggle_upload_post } from '../redux'
 import url from '../config/url';
 import { findAllByPlaceholderText } from '@testing-library/react';
 
@@ -8,6 +10,7 @@ export default withRouter(
 	(props) => {
 		const [categoryList, setCategoryList] = useState([]);
 		const [userMessage, setUserMessage] = useState('');
+		const dispatch = useDispatch();
 		const refreshPostUpload = () => {
 			axios.get(url.backendURL + url.paths.getCategory)
 				.then(
@@ -67,7 +70,7 @@ export default withRouter(
 									<form onSubmit={submitHandler} encType='multipart/form-data' method='post' id='postform'>
 										<ul>
 											<li key='uploadpost1'>
-												<div className="clos_btn"><img src="images/clos.png" alt="" id="clos_pop" /></div>
+												<div className="clos_btn" onClick={ () => dispatch(toggle_upload_post(true)) } ><img src="images/clos.png" alt="" id="clos_pop" /></div>
 												<div className="pop_hdr">You can upload a post here</div>
 											</li>
 											<li key='uploadpost6'>

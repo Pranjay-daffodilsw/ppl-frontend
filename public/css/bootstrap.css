@@ -6255,10 +6255,10 @@ a.badge:focus {
 	height: auto;
 }
 .content {
-	float: left;
+  float: left;
 	width: 100%;
 	height: auto;
-	margin-top: 3%;
+	margin-top: 8%;
 }
 .content_lft {
 	float: left;
@@ -6543,7 +6543,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffb02f', end
 	font-family: Arial, Helvetica, sans-serif;
 	text-shadow: 0px 1px 0px #ac6209;
 	font-size: 24px;
-	font-weight: bold;
+  font-weight: bold;
+  cursor:pointer;
 }
 .rght_btn a {
 	color: #fff;
