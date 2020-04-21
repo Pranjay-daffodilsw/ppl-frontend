@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { toggle_upload_post } from '../redux'
 import url from '../config/url';
-import { findAllByPlaceholderText } from '@testing-library/react';
 
 export default withRouter(
 	(props) => {

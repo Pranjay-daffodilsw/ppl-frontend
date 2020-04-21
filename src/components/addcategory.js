@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router'
+// import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom';
 import { toggle_add_category } from '../redux';
 import url from '../config/url';
 
 export default (
     (props) => {
-        const history = useHistory();
+        // const history = useHistory();
         const [usermessage, setUsermessage] = useState('');
         const toggleAddCategory = useSelector(state => state.toggle.addCategory);
         const dispatch = useDispatch();
