@@ -21,7 +21,7 @@ export default () => {
 		console.log('filterHandler args - ', args)
 		if (args.filterByDate === true) {
 			console.log('filter by date oldest')
-			dispatch(refresh_post(postsCurrent.reverse()))
+			dispatch(refresh_post([...postsCurrent].reverse()))
 		} else if (args.filterByLike === true) {
 			console.log('filter by like')
 			let updated_array = [];

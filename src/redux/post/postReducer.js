@@ -13,7 +13,7 @@ const postReducer = (state = initialState, action) => {
             console.log('REFRESH_POST', action.payload.loadFresh);
             return {
                 ...state,
-                posts: action.payload.data,
+                posts: action.payload.data ,
                 postsCurrent: action.payload.loadFresh ? action.payload.data : state.postsCurrent
             }
         }

@@ -157,7 +157,7 @@ export default (props) => {
 			<div>
 				<div className="container">
 					<div className="content">
-						<ContentRight />
+						{/* <ContentRight /> */}
 						<div className="content_lft">
 							<div className="contnt_2">
 								<div className="div_a">

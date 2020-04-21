@@ -1,7 +1,7 @@
 import { REFRESH_POST, LOAD_POST } from './postActionTypes';
 
 export const refresh_post = ( posts = [], loadFresh = false ) => {
-    console.log('refresh_post action posts - ', posts);
+    console.log('refresh_post action posts - ', posts, loadFresh);
     return {
         type: REFRESH_POST,
         payload: {
