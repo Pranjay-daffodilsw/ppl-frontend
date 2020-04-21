@@ -42,7 +42,7 @@ class timeline extends React.Component {
 				this.props.refresh_post(updated_array)
 			} else if (this.props.location.state.filterByDate === true) {
 				console.log('filterbydate')
-				this.props.refresh_post(this.props.postsCurrent.reverse())
+				this.props.refresh_post([...this.props.postsCurrent].reverse())
 			} else if (this.props.location.state.filterByLike === true) {
 				console.log('filter by like')
 				let updated_array = this.props.postsCurrent;
