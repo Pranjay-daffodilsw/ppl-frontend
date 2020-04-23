@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { debounce } from 'lodash'
 import { connect } from "react-redux";
 import { refresh_post, load_post } from '../redux';
 import ContentRight from '../components/content_right';
@@ -10,13 +11,35 @@ import url from '../config/url';
 class timeline extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			bufferPost: []
+		}
 		if (localStorage.getItem('loginTrue') === 'false' || localStorage.getItem('loginTrue') === null) {
 			props.history.push('/login')
 		}
+		window.onscroll = debounce(() => {
+			console.log('scroll');
+			console.log('window.innerHeight', window.innerHeight);
+			console.log('document.documentElement.scrollTop', document.documentElement.scrollTop);
+			console.log('document.documentElement.offsetHeight', document.documentElement.offsetHeight)
+			if (window.innerHeight + document.documentElement.scrollTop >=
+				document.documentElement.offsetHeight -( window.innerHeight / 2)) {
+				console.log('load new data');
+			}
+		}
+			, 300)
 	}
+
+
+
 	componentDidMount() {
-    this.Updater()
+		this.Updater()
 	}
+
+	static getDerivedStateFromProps(props, state) {
+
+	}
+
 	Updater = (
 		args = {
 			filter: false,
@@ -26,7 +49,7 @@ class timeline extends React.Component {
 			filterByComment: false
 		}
 	) => {
-    console.log('ttttt - ', (typeof this.props.location.state !== "undefined"))
+		console.log('ttttt - ', (typeof this.props.location.state !== "undefined"))
 		if ((typeof this.props.location.state !== "undefined") && (this.props.location.state.filter === true)) {
 			if (this.props.location.state.filterByCategory === true) {
 				console.log('filter by category')
@@ -145,7 +168,7 @@ class timeline extends React.Component {
 										let image = require('../fileUploads/' + this.props.posts[index].filename);
 										return (
 
-											<div className="contnt_2">
+											<div key={value._id} className="contnt_2">
 												<div className="div_a">
 													<Link
 														to={{
