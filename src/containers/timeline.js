@@ -17,6 +17,7 @@ class timeline extends React.Component {
 		if (localStorage.getItem('loginTrue') === 'false' || localStorage.getItem('loginTrue') === null) {
 			props.history.push('/login')
 		}
+		
 		window.onscroll = debounce(() => {
 			console.log('scroll');
 			console.log('window.innerHeight', window.innerHeight);

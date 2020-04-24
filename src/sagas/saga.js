@@ -7,7 +7,7 @@ function* getPostAsync() {
 	try {
 		let response = yield postGet();
 		// console.log('getPostAsync function called with result - ', response);
-		yield put(refresh_post(response.data, true))
+		yield put(refresh_post(response.data.data, true))
 	}
 	catch (e) {
 		console.error('saga.js error - ', e);
