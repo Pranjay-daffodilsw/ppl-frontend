@@ -14,7 +14,8 @@ const postReducer = (state = initialState, action) => {
             return {
                 ...state,
                 posts: action.payload.data ,
-                postsCurrent: action.payload.loadFresh ? action.payload.data : state.postsCurrent
+                postsCurrent: action.payload.loadFresh ? action.payload.data : state.postsCurrent,
+                totalElements: action.payload.totalElements
             }
         }
 

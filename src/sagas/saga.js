@@ -3,11 +3,12 @@ import { LOAD_POST } from "../redux/post/postActionTypes";
 import { refresh_post } from '../redux';
 import { postGet } from '../api/postGet'
 
-function* getPostAsync() {
+function* getPostAsync(arg) {
+	console.log('arg2 ==== ', arg)
 	try {
-		let response = yield postGet();
+		let response = yield postGet(arg.payload);
 		// console.log('getPostAsync function called with result - ', response);
-		yield put(refresh_post(response.data.data, true))
+		yield put(refresh_post(response.data.data, true, response.data.totalElements))
 	}
 	catch (e) {
 		console.error('saga.js error - ', e);
