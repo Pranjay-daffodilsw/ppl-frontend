@@ -16,8 +16,8 @@ export default (props) => {
  	
 	useEffect(
 		(props) => {
-			console.log('useEffect ran on - ', 'content_right.js' );
-			console.log('props on - ', 'content_right.js', props);
+			// console.log('useEffect ran on - ', 'content_right.js' );
+			// console.log('props on - ', 'content_right.js', props);
 			let componentMounted = true;
 			axios.get(url.backendURL + url.paths.getCategory)
 				.then(

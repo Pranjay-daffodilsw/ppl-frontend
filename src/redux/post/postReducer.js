@@ -1,8 +1,7 @@
 import { REFRESH_POST } from './postActionTypes';
 
 const initialState = {
-    posts: [],
-    postsCurrent: []
+    posts: []
 }
 
 const postReducer = (state = initialState, action) => {
@@ -10,12 +9,10 @@ const postReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case REFRESH_POST: {
-            console.log('REFRESH_POST', action.payload.loadFresh);
             return {
                 ...state,
-                posts: action.payload.data ,
-                postsCurrent: action.payload.loadFresh ? action.payload.data : state.postsCurrent,
-                totalElements: action.payload.totalElements
+                posts: action.payload.options.clearOld ? action.payload.items : [...action.payload.options.itemsOld, action.payload.items],
+                totalElements: action.payload.options.totalElements
             }
         }
 

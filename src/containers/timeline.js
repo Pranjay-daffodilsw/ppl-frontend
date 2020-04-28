@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { debounce } from 'lodash'
 import { connect } from "react-redux";
+import InfiniteScroll from 'react-infinite-scroller'
 import { refresh_post, load_post } from '../redux';
 import ContentRight from '../components/content_right';
 import PostFilter1 from '../components/post_filter1';
@@ -14,32 +15,46 @@ class timeline extends React.Component {
 		this.state = {
 			bufferPost: [],
 			hasMoreItems: true,
-			loadedUpto: -1
+			loadedUpto: 0
 		}
 		if (localStorage.getItem('loginTrue') === 'false' || localStorage.getItem('loginTrue') === null) {
 			props.history.push('/login')
 		}
 
-		window.onscroll = debounce(() => {
-			console.log('scrolled');
-			if (window.innerHeight + document.documentElement.scrollTop >=
-				document.documentElement.offsetHeight - (window.innerHeight / 2)) {
-				this.handlerScroll();
-			}
-		}
-			, 300)
+		// window.onscroll = debounce(() => {
+		// 	console.log('scrolled');
+		// 	if (window.innerHeight + document.documentElement.scrollTop >=
+		// 		document.documentElement.offsetHeight - (window.innerHeight / 2)) {
+		// 		this.handlerScroll();
+		// 	}
+		// }
+		// 	, 300)
 	}
 
-	handlerScroll = (elementNumber) => {
-		console.log('handlerScroll');
-	}
+	// handlerScroll = (elementNumber) => {
+	// 	console.log('handlerScroll');
+	// }
 
-	handlerScroll2 = () => {
-		
+	loadItems = (elementNumber) => {
+		console.log(elementNumber);
+		this.props.load_post(this.props.post, {
+			pageDetail: {
+				fromElement: elementNumber - 1,
+				uptoElement: elementNumber
+			},
+			clearOld: (elementNumber === 1) ? true : false
+
+		});
+
+		this.setState({
+			loadedUpto: elementNumber,
+			hasMoreItems: (this.props.totalElements > elementNumber)
+		});
+		console.log('timeline state', this.state)
 	}
 
 	componentDidMount() {
-		this.Updater()
+		// this.Updater()
 	}
 
 	static getDerivedStateFromProps(props, state) {
@@ -146,14 +161,14 @@ class timeline extends React.Component {
 
 	}
 	render() {
-		console.log('props in timeline.js - ', this.props);
-
-
-		const loader = <div className='loader'> Loading... </div>;
+		const loader = <div key={'loader'} className='loader'> Loading... </div>;
 		var items = [];
+
+
 		this.props.posts.map(
 			(value, index) => {
-				let d = new Date(this.props.posts[index].date);
+				console.log("iwsbjcjb----------------------------", value, items)
+				let d = new Date(value.date);
 				d = d.toString()
 				let date = d.slice(8, 10) + ' ' + d.slice(4, 7) + ' ' + d.slice(11, 16);
 				let mm = d.slice(18, 21), hh = d.slice(16, 18), nn = '';
@@ -170,10 +185,9 @@ class timeline extends React.Component {
 				}
 				else { nn = 'AM' }
 				let time = hh + mm + ' ' + nn
-				let image = require('../fileUploads/' + this.props.posts[index].filename);
+				let image = ''//require('../fileUploads/' + value.filename);
 				items.push(
-
-					<div key={value._id} className="contnt_2">
+					(<div key={value._id} className="contnt_2">
 						<div className="div_a">
 							<Link
 								to={{
@@ -184,12 +198,12 @@ class timeline extends React.Component {
 									}
 								}}
 							>
-								<div className="div_title">{this.props.posts[index].title}</div>
+								<div className="div_title">{value.title}</div>
 								<div className="btm_rgt">
-									<div className="btm_arc">{this.props.posts[index].category}</div>
+									<div className="btm_arc">{value.category}</div>
 								</div>
 								<div className="div_top">
-									<div className="div_top_lft"><img src="images/img_6.png" alt='' />{this.props.posts[index].username}</div>
+									<div className="div_top_lft"><img src="images/img_6.png" alt='' />{value.username}</div>
 									<div className="div_top_rgt"><span className="span_date">{date}</span><span className="span_time">{time}</span></div>
 								</div>
 								<div className="div_image"><img src={image} alt="pet" /></div>
@@ -213,11 +227,10 @@ class timeline extends React.Component {
 								</div>
 							</div>
 						</div>
-					</div>
+					</div>)
 				)
-				return null
 			}
-		)		 
+		)
 
 		return (
 			<div>
@@ -226,7 +239,16 @@ class timeline extends React.Component {
 						<ContentRight Updater={this.Updater} />
 						<div className="content_lft">
 							<PostFilter1 Updater={this.Updater} />
-							{items}
+							<InfiniteScroll
+								pageStart={0}
+								loadMore={this.loadItems}
+								hasMore={this.state.hasMoreItems}
+								loader={loader}
+							>
+								<div>
+									{items}
+								</div>
+							</InfiniteScroll>
 						</div>
 					</div>
 					<div className="clear" />
@@ -242,7 +264,8 @@ const mapStateToProps = (state) => {
 	console.log('mapStateToProps state - ', state)
 	return {
 		postsCurrent: state.post.postsCurrent,
-		posts: state.post.posts
+		posts: state.post.posts,
+		totalElements: state.post.totalElements
 	}
 }
 

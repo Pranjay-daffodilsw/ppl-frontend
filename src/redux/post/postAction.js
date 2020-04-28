@@ -1,20 +1,19 @@
 import { REFRESH_POST, LOAD_POST } from './postActionTypes';
 
-export const refresh_post = ( posts = [], loadFresh = false, totalElements ) => {
-    console.log('refresh_post action posts - ', posts, loadFresh);
+export const refresh_post = ( items = [], options = {}) => {
+    console.log('refresh_post action posts - ', items, options);
     return {
         type: REFRESH_POST,
         payload: {
-            data: posts,
-            loadFresh: loadFresh,
-            totalElements: totalElements
+            items: items,
+            options: options
         }
     }
 }
 
-export const load_post = ( posts = [] ) => {
+export const load_post = (itemsOld = [], options = {}) => {
     return {
         type: LOAD_POST,
-        payload: posts
+        payload: {itemsOld: itemsOld, options: options}
     }
 }
