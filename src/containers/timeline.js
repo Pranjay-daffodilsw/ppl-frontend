@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { debounce } from 'lodash'
+// import { debounce } from 'lodash'
 import { connect } from "react-redux";
 import InfiniteScroll from 'react-infinite-scroller'
 import { refresh_post, load_post } from '../redux';
@@ -13,7 +13,6 @@ class timeline extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			bufferPost: [],
 			hasMoreItems: true,
 			loadedUpto: 0
 		}
@@ -31,13 +30,9 @@ class timeline extends React.Component {
 		// 	, 300)
 	}
 
-	// handlerScroll = (elementNumber) => {
-	// 	console.log('handlerScroll');
-	// }
-
 	loadItems = (elementNumber) => {
-		console.log(elementNumber);
-		this.props.load_post(this.props.post, {
+		console.log('<<<<<<<<<<<<loadItems called ', elementNumber, this.state);
+		this.props.load_post(this.props.posts, {
 			pageDetail: {
 				fromElement: elementNumber - 1,
 				uptoElement: elementNumber
@@ -45,88 +40,90 @@ class timeline extends React.Component {
 			clearOld: (elementNumber === 1) ? true : false
 
 		});
-
+		console.log(this.props.totalElements, elementNumber)
+	 	let hasMoreItems = elementNumber < 9;
+		// if(this.props.totalElements){	hasMoreItems = (this.props.totalElements > elementNumber)	}
+		// else{ hasMoreItems = true }
 		this.setState({
 			loadedUpto: elementNumber,
-			hasMoreItems: (this.props.totalElements > elementNumber)
+			hasMoreItems: hasMoreItems
 		});
-		console.log('timeline state', this.state)
 	}
 
-	componentDidMount() {
-		// this.Updater()
-	}
+	// componentDidMount() {
+	// 	// this.Updater()
+	// }
 
-	static getDerivedStateFromProps(props, state) {
+	// static getDerivedStateFromProps(props, state) {
 
-	}
+	// }
 
-	Updater = (
-		args = {
-			filter: false,
-			filterByCategory: false,
-			filterByDate: false,
-			filterByLike: false,
-			filterByComment: false
-		}
-	) => {
-		console.log('ttttt - ', (typeof this.props.location.state !== "undefined"))
-		if ((typeof this.props.location.state !== "undefined") && (this.props.location.state.filter === true)) {
-			if (this.props.location.state.filterByCategory === true) {
-				console.log('filter by category')
-				let updated_array = []
-				this.props.postsCurrent.map(
-					(value, index) => {
-						if (value.category === this.props.location.hash.slice(1)) {
-							updated_array.push(value)
-						}
-						return {}
-					}
-				)
-				this.props.refresh_post(updated_array)
-			} else if (this.props.location.state.filterByDate === true) {
-				console.log('filterbydate')
-				this.props.refresh_post([...this.props.postsCurrent].reverse())
-			} else if (this.props.location.state.filterByLike === true) {
-				console.log('filter by like')
-				let updated_array = this.props.postsCurrent;
-				let maxLike = 0;
-				this.props.postsCurrent.forEach(
-					(item, index) => {
-						if (item.likes.length > maxLike) {
-							maxLike = item.likes.length
-							updated_array = [item]
-						}
-					}
-				);
-				this.props.refresh_post(updated_array)
-			} else if (this.props.location.state.filterByComment === true) {
-				console.log('filter by comment')
-				let updated_array = this.props.postsCurrent;
-				let maxComment = 0;
-				this.props.postsCurrent.forEach(
-					(item, index) => {
-						if (item.comments.length > maxComment) {
-							maxComment = item.comments.length
-							updated_array = [item]
-						}
-					}
-				);
-				this.props.refresh_post(updated_array)
-			}
-			else {
-				console.log('else statement 1')
-				this.props.load_post()
-			}
-		}
-		else {
-			console.log('else statement 2')
-			this.props.load_post({
-				fromElement: 0,
-				uptoElement: 1
-			})
-		}
-	}
+	// Updater = (
+	// 	args = {
+	// 		filter: false,
+	// 		filterByCategory: false,
+	// 		filterByDate: false,
+	// 		filterByLike: false,
+	// 		filterByComment: false
+	// 	}
+	// ) => {
+	// 	console.log('ttttt - ', (typeof this.props.location.state !== "undefined"))
+	// 	if ((typeof this.props.location.state !== "undefined") && (this.props.location.state.filter === true)) {
+	// 		if (this.props.location.state.filterByCategory === true) {
+	// 			console.log('filter by category')
+	// 			let updated_array = []
+	// 			this.props.postsCurrent.map(
+	// 				(value, index) => {
+	// 					if (value.category === this.props.location.hash.slice(1)) {
+	// 						updated_array.push(value)
+	// 					}
+	// 					return {}
+	// 				}
+	// 			)
+	// 			this.props.refresh_post(updated_array)
+	// 		} else if (this.props.location.state.filterByDate === true) {
+	// 			console.log('filterbydate')
+	// 			this.props.refresh_post([...this.props.postsCurrent].reverse())
+	// 		} else if (this.props.location.state.filterByLike === true) {
+	// 			console.log('filter by like')
+	// 			let updated_array = this.props.postsCurrent;
+	// 			let maxLike = 0;
+	// 			this.props.postsCurrent.forEach(
+	// 				(item, index) => {
+	// 					if (item.likes.length > maxLike) {
+	// 						maxLike = item.likes.length
+	// 						updated_array = [item]
+	// 					}
+	// 				}
+	// 			);
+	// 			this.props.refresh_post(updated_array)
+	// 		} else if (this.props.location.state.filterByComment === true) {
+	// 			console.log('filter by comment')
+	// 			let updated_array = this.props.postsCurrent;
+	// 			let maxComment = 0;
+	// 			this.props.postsCurrent.forEach(
+	// 				(item, index) => {
+	// 					if (item.comments.length > maxComment) {
+	// 						maxComment = item.comments.length
+	// 						updated_array = [item]
+	// 					}
+	// 				}
+	// 			);
+	// 			this.props.refresh_post(updated_array)
+	// 		}
+	// 		else {
+	// 			console.log('else statement 1')
+	// 			this.props.load_post()
+	// 		}
+	// 	}
+	// 	else {
+	// 		console.log('else statement 2')
+	// 		this.props.load_post({
+	// 			fromElement: 0,
+	// 			uptoElement: 1
+	// 		})
+	// 	}
+	// }
 
 	likeButtonHandler = (value) => {
 		if (localStorage.getItem('loginTrue') === 'false') {
@@ -163,11 +160,10 @@ class timeline extends React.Component {
 	render() {
 		const loader = <div key={'loader'} className='loader'> Loading... </div>;
 		var items = [];
-
+		console.log('timeline state', this.state, 'timeline props', this.props);
 
 		this.props.posts.map(
 			(value, index) => {
-				console.log("iwsbjcjb----------------------------", value, items)
 				let d = new Date(value.date);
 				d = d.toString()
 				let date = d.slice(8, 10) + ' ' + d.slice(4, 7) + ' ' + d.slice(11, 16);
@@ -185,7 +181,7 @@ class timeline extends React.Component {
 				}
 				else { nn = 'AM' }
 				let time = hh + mm + ' ' + nn
-				let image = ''//require('../fileUploads/' + value.filename);
+				let image = require('../fileUploads/' + value.filename);
 				items.push(
 					(<div key={value._id} className="contnt_2">
 						<div className="div_a">
@@ -229,7 +225,9 @@ class timeline extends React.Component {
 						</div>
 					</div>)
 				)
+				return null
 			}
+
 		)
 
 		return (
@@ -271,8 +269,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispach) => {
 	return {
-		refresh_post: (newData) => dispach(refresh_post(newData)),
-		load_post: (args) => dispach(load_post(args))
+		refresh_post: (items, options) => dispach(refresh_post(items, options)),
+		load_post: (itemsOld, options) => dispach(load_post(itemsOld, options))
 	}
 }
 

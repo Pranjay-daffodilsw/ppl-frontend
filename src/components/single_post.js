@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ContentRight from './content_right';
+// import ContentRight from './content_right';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import url from '../config/url';

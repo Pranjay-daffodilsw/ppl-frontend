@@ -4,13 +4,17 @@ import { refresh_post } from '../redux';
 import { postGet } from '../api/postGet'
 
 function* getPostAsync(action) {
-	console.log('arg2 ==== ', action)
 	try {
-		let response = yield postGet(action.payload.pageDetail);
-		// console.log('getPostAsync function called with result - ', response);
+		let response = yield postGet(action.payload.options.pageDetail);
+		console.log('action to saga - ', action,
+			'arguments out from saga', response.data.data, {
+			totalElements: response.data.totalElements,
+			clearOld: action.payload.options.clearOld,
+			itemsOld: action.payload.itemsOld
+		})
 		yield put(refresh_post(response.data.data, {
 			totalElements: response.data.totalElements,
-			clearOld: action.payload.clearOld,
+			clearOld: action.payload.options.clearOld,
 			itemsOld: action.payload.itemsOld
 		}))
 	}

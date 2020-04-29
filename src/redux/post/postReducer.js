@@ -5,13 +5,12 @@ const initialState = {
 }
 
 const postReducer = (state = initialState, action) => {
-    console.log('postReducer() arguments', state, action)
-
+    console.log('post reducer state and action - ', state, action)
     switch (action.type) {
         case REFRESH_POST: {
             return {
                 ...state,
-                posts: action.payload.options.clearOld ? action.payload.items : [...action.payload.options.itemsOld, action.payload.items],
+                posts: action.payload.options.clearOld ? action.payload.items : [...state.posts, ...action.payload.items],
                 totalElements: action.payload.options.totalElements
             }
         }
