@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-// import { useHistory } from 'react-router'
+import Resizer from 'react-image-file-resizer';
 import { Link } from 'react-router-dom';
 import { toggle_add_category } from '../redux';
 import url from '../config/url';
 
 export default (
     (props) => {
-        // const history = useHistory();
         const [usermessage, setUsermessage] = useState('');
         const toggleAddCategory = useSelector(state => state.toggle.addCategory);
         const dispatch = useDispatch();
@@ -24,14 +23,34 @@ export default (
                 }
             });
             if (add_flag) {
-                axios.post(url.backendURL + url.paths.addCategory, formData)
-                    .then((res) => {
-                        console.log('axios result (in add category) - ', res)
-                        // history.push('/postupload');
-                    })
-                    .catch((err) => {
-                        console.error('axios error (in add category) - ', err)
-                    })
+                let thumbnail_raw = formData.get("thumbnail_raw");
+                formData.delete("thumbnail_raw");
+
+                Resizer.imageFileResizer(
+                    thumbnail_raw,
+                    128,
+                    128,
+                    "jpeg",
+                    70,
+                    0,
+                    uri => {
+                        formData.set('thumbnail', uri, thumbnail_raw.name);
+                        axios.post(url.backendURL + url.paths.addCategory, formData)
+                            .then((res) => {
+                                console.log('axios result (in add category) - ', res)
+                            })
+                            .catch((err) => {
+                                console.error('axios error (in add category) - ', err)
+                            })
+
+                    },
+                    "blob"
+                )
+
+
+
+
+
             }
             else {
                 setUsermessage('Entered category already exists');
@@ -71,8 +90,8 @@ export default (
                                                     <div style={{ color: 'tomato' }}><h4>{usermessage}</h4></div>
                                                 </li>
                                                 <li key={"addcategory4"}>
-                                                    <div className='div_name1'><label htmlFor='thumbnail'>Choose an image file to uplaod - </label></div>
-                                                    <input type='file' name='thumbnail' required />
+                                                    <div className='div_name1'><label htmlFor='thumbnail_raw'>Choose an image file to uplaod - </label></div>
+                                                    <input type='file' name='thumbnail_raw' required />
                                                 </li>
                                                 <li key={"addcategory6"}>
                                                     <div className="div_name2 man_contnt">
