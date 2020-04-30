@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import Resizer from 'react-image-file-resizer'
 import { toggle_upload_post } from '../redux'
 import url from '../config/url';
 
@@ -36,23 +37,45 @@ export default withRouter(
 				formData.append('date', Date.now());
 				formData.append('user_id', localStorage.getItem('user_id'));
 				formData.append('username', localStorage.getItem('username'));
-
-				for (var x in formData.values()) {
-					console.log(x);
-				}
 				const config = {
 					headers: {
 						'content-type': 'multipart/form-data'
 					}
 				};
-				axios.post(url.backendURL + url.paths.addPost, formData, config)
-					.then((res) => {
-						setUserMessage('');
-						this.props.history.push('/timeline')
-					})
-					.catch((err) => {
-						setUserMessage('An internal server error has occured, please try again after some time');
-					})
+				let image_file_raw = formData.get('image_file_raw');
+				formData.delete('image_file_raw');
+
+				Resizer.imageFileResizer(
+					image_file_raw,
+					1024,
+					1024,
+					"jpeg",
+					70,
+					0,
+					(uri) => {
+
+						formData.set('image_file', uri, image_file_raw.name)
+
+						axios.post(url.backendURL + url.paths.addPost, formData, config)
+							.then((res) => {
+								setUserMessage('');
+								this.props.history.push('/timeline')
+							})
+							.catch((err) => {
+								setUserMessage('An internal server error has occured, please try again after some time');
+							})
+						// for(var x of formData){
+						// 	console.log(x);
+						// }
+
+					},
+					"blob"
+				)
+
+
+
+
+
 			}
 			else {
 				setUserMessage('You are not logged in to make a post. Please log in and try again');
@@ -60,7 +83,7 @@ export default withRouter(
 		}
 
 		return (
-			<div style={{ }}>
+			<div style={{}}>
 				<div className="popup_sec" id="pop_forgt">
 					<div className="contnt_1">
 						<div className="timeline_div1">
@@ -69,7 +92,7 @@ export default withRouter(
 									<form onSubmit={submitHandler} encType='multipart/form-data' method='post' id='postform'>
 										<ul>
 											<li key='uploadpost1'>
-												<div className="clos_btn" onClick={ () => dispatch(toggle_upload_post(true)) } ><img src="images/clos.png" alt="" id="clos_pop" /></div>
+												<div className="clos_btn" onClick={() => dispatch(toggle_upload_post(true))} ><img src="images/clos.png" alt="" id="clos_pop" /></div>
 												<div className="pop_hdr">You can upload a post here</div>
 											</li>
 											<li key='uploadpost6'>
@@ -89,7 +112,7 @@ export default withRouter(
 														categoryList.map(
 															(value, index) => {
 																return (
-																	<option value={value.categoryname}>{value.categoryname.toUpperCase()}</option>
+																	<option value={value.categoryname} key={"key_" + value.categoryname}>{value.categoryname.toUpperCase()}</option>
 																)
 															}
 														)
@@ -98,8 +121,8 @@ export default withRouter(
 												</select>
 											</li>
 											<li key='uploadpost4'>
-												<div className="div_name1 "><label htmlFor='image_file'>Choose an image below : </label></div>
-												<input type='file' name='image_file' required />
+												<div className="div_name1 "><label htmlFor='image_file_raw'>Choose an image below : </label></div>
+												<input type='file' name='image_file_raw' required />
 											</li>
 											<li key='uploadpost5'>
 												<div className="div_name2 man_contnt">
