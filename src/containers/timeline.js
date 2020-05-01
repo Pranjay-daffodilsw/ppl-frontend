@@ -19,44 +19,21 @@ class timeline extends React.Component {
 		if (localStorage.getItem('loginTrue') === 'false' || localStorage.getItem('loginTrue') === null) {
 			props.history.push('/login')
 		}
-
-		// window.onscroll = debounce(() => {
-		// 	console.log('scrolled');
-		// 	if (window.innerHeight + document.documentElement.scrollTop >=
-		// 		document.documentElement.offsetHeight - (window.innerHeight / 2)) {
-		// 		this.handlerScroll();
-		// 	}
-		// }
-		// 	, 300)
 	}
 
 	loadItems = (elementNumber) => {
-		console.log('<<<<<<<<<<<<loadItems called ', elementNumber, this.state);
 		this.props.load_post(this.props.posts, {
 			pageDetail: {
 				fromElement: elementNumber - 1,
 				uptoElement: elementNumber
 			},
 			clearOld: (elementNumber === 1) ? true : false
-
-		});
-		console.log(this.props.totalElements, elementNumber)
-	 	let hasMoreItems = elementNumber < 9;
-		// if(this.props.totalElements){	hasMoreItems = (this.props.totalElements > elementNumber)	}
-		// else{ hasMoreItems = true }
-		this.setState({
-			loadedUpto: elementNumber,
-			hasMoreItems: hasMoreItems
 		});
 	}
 
-	// componentDidMount() {
-	// 	// this.Updater()
-	// }
 
-	// static getDerivedStateFromProps(props, state) {
 
-	// }
+
 
 	// Updater = (
 	// 	args = {
@@ -111,7 +88,9 @@ class timeline extends React.Component {
 	// 			);
 	// 			this.props.refresh_post(updated_array)
 	// 		}
-	// 		else {
+	// 		else {this.setState({
+		// 	loadedUpto: elementNumber
+		// });
 	// 			console.log('else statement 1')
 	// 			this.props.load_post()
 	// 		}
@@ -240,8 +219,11 @@ class timeline extends React.Component {
 							<InfiniteScroll
 								pageStart={0}
 								loadMore={this.loadItems}
-								hasMore={this.state.hasMoreItems}
+								hasMore={
+									this.props.totalElements? (this.props.posts.length < this.props.totalElements): true
+								}
 								loader={loader}
+								threshold={250}
 							>
 								<div>
 									{items}
