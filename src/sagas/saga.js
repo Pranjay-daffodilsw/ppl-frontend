@@ -5,7 +5,7 @@ import { postGet } from '../api/postGet'
 
 function* getPostAsync(action) {
 	try {
-		let response = yield postGet(action.payload.options.pageDetail);
+		let response = yield postGet(action.payload.options);
 		console.log('action to saga - ', action,
 			'arguments out from saga', response.data.data, {
 			totalElements: response.data.totalElements,

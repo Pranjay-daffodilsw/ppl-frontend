@@ -21,41 +21,19 @@ export default () => {
 		console.log('filterHandler args - ', args)
 		if (args.filterByDate === true) {
 			console.log('filter by date oldest')
-			dispatch(refresh_post([...postsCurrent].reverse()))
+			// dispatch(refresh_post([...postsCurrent].reverse()))
 		} else if (args.filterByLike === true) {
 			console.log('filter by like')
-			let updated_array = [];
-			let maxLike = -1;
-			postsCurrent.forEach(
-				(item, index) => {
-					if (item.likes.length > maxLike) {
-						maxLike = item.likes.length
-						updated_array = [item]
-					} else if ( item.likes.length === maxLike ){
-						updated_array.push(item)
-					}
-				}
-			);
-			dispatch(refresh_post(updated_array))
+			
+			// dispatch(refresh_post(updated_array))
 		} else if (args.filterByComment === true) {
 			console.log('filter by comment')
-			let updated_array = [];
-			let maxComment = -1;
-			postsCurrent.forEach(
-				(item, index) => {
-					if (item.comments.length > maxComment) {
-						maxComment = item.comments.length
-						updated_array = [item]
-					} else if ( item.comments.length === maxComment ){
-						updated_array.push(item)
-					}
-				}
-			);
-			dispatch(refresh_post(updated_array))
+			
+			// dispatch(refresh_post(updated_array))
 		}
 		else {
 			console.log('filter by date newest');
-			dispatch(refresh_post(postsCurrent));
+			// dispatch(refresh_post(postsCurrent));
 		}
 	}
 	return (

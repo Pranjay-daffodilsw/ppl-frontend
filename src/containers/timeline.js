@@ -27,82 +27,10 @@ class timeline extends React.Component {
 				fromElement: elementNumber - 1,
 				uptoElement: elementNumber
 			},
+			dbQuery: this.props.dbQuery,
 			clearOld: (elementNumber === 1) ? true : false
 		});
 	}
-
-
-
-
-
-	// Updater = (
-	// 	args = {
-	// 		filter: false,
-	// 		filterByCategory: false,
-	// 		filterByDate: false,
-	// 		filterByLike: false,
-	// 		filterByComment: false
-	// 	}
-	// ) => {
-	// 	console.log('ttttt - ', (typeof this.props.location.state !== "undefined"))
-	// 	if ((typeof this.props.location.state !== "undefined") && (this.props.location.state.filter === true)) {
-	// 		if (this.props.location.state.filterByCategory === true) {
-	// 			console.log('filter by category')
-	// 			let updated_array = []
-	// 			this.props.postsCurrent.map(
-	// 				(value, index) => {
-	// 					if (value.category === this.props.location.hash.slice(1)) {
-	// 						updated_array.push(value)
-	// 					}
-	// 					return {}
-	// 				}
-	// 			)
-	// 			this.props.refresh_post(updated_array)
-	// 		} else if (this.props.location.state.filterByDate === true) {
-	// 			console.log('filterbydate')
-	// 			this.props.refresh_post([...this.props.postsCurrent].reverse())
-	// 		} else if (this.props.location.state.filterByLike === true) {
-	// 			console.log('filter by like')
-	// 			let updated_array = this.props.postsCurrent;
-	// 			let maxLike = 0;
-	// 			this.props.postsCurrent.forEach(
-	// 				(item, index) => {
-	// 					if (item.likes.length > maxLike) {
-	// 						maxLike = item.likes.length
-	// 						updated_array = [item]
-	// 					}
-	// 				}
-	// 			);
-	// 			this.props.refresh_post(updated_array)
-	// 		} else if (this.props.location.state.filterByComment === true) {
-	// 			console.log('filter by comment')
-	// 			let updated_array = this.props.postsCurrent;
-	// 			let maxComment = 0;
-	// 			this.props.postsCurrent.forEach(
-	// 				(item, index) => {
-	// 					if (item.comments.length > maxComment) {
-	// 						maxComment = item.comments.length
-	// 						updated_array = [item]
-	// 					}
-	// 				}
-	// 			);
-	// 			this.props.refresh_post(updated_array)
-	// 		}
-	// 		else {this.setState({
-		// 	loadedUpto: elementNumber
-		// });
-	// 			console.log('else statement 1')
-	// 			this.props.load_post()
-	// 		}
-	// 	}
-	// 	else {
-	// 		console.log('else statement 2')
-	// 		this.props.load_post({
-	// 			fromElement: 0,
-	// 			uptoElement: 1
-	// 		})
-	// 	}
-	// }
 
 	likeButtonHandler = (value) => {
 		if (localStorage.getItem('loginTrue') === 'false') {
@@ -125,7 +53,7 @@ class timeline extends React.Component {
 				.then(
 					(res) => {
 						console.log('axios res.data - ', res.data);
-						this.Updater();
+						
 					}
 				)
 				.catch(
@@ -137,7 +65,7 @@ class timeline extends React.Component {
 
 	}
 	render() {
-		const loader = <div key={'loader'} className='loader'> Loading... </div>;
+		const loader = <div key={'loader'} className='loader'><h3> Loading... </h3></div>;
 		var items = [];
 		console.log('timeline state', this.state, 'timeline props', this.props);
 
@@ -243,9 +171,9 @@ class timeline extends React.Component {
 const mapStateToProps = (state) => {
 	console.log('mapStateToProps state - ', state)
 	return {
-		postsCurrent: state.post.postsCurrent,
 		posts: state.post.posts,
-		totalElements: state.post.totalElements
+		totalElements: state.post.totalElements,
+		dbQuery: state.post.dbQuery
 	}
 }
 

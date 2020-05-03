@@ -1,7 +1,13 @@
 import { REFRESH_POST } from './postActionTypes';
 
 const initialState = {
-    posts: []
+    posts: [],
+    dbQuery: {
+        category: {},
+        _id: {},
+        max: {},
+        sort: { date: -1 }
+    }
 }
 
 const postReducer = (state = initialState, action) => {
