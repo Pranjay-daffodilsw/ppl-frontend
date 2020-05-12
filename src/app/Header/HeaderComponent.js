@@ -1,40 +1,12 @@
-import React from 'react'
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from 'react-router-dom'
-import { update_user_data } from "../redux";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-export default (props) => {
-    const loginTrue = useSelector(state => state.user.loginStatus.loginTrue)
-    const dispatch = useDispatch();
-    dispatch(update_user_data({
-        loginTrue: localStorage.getItem('loginTrue')
-    }))
-    const logoutHandler = () => {
-        localStorage.setItem('loginTrue', false);
-        localStorage.removeItem('user_id');
-        localStorage.removeItem('username');
-        localStorage.removeItem('lname');
-        localStorage.removeItem('fname');
-        localStorage.removeItem('email');
-        dispatch(update_user_data({
-            loginTrue: false
-        }));
-    }
-    let username = '';
-    let navigationLinks;
-    if (loginTrue === 'true') {
-        username = localStorage.getItem('username');
-        navigationLinks = (
-            <li key={'logout'}><Link style={{ color: "white" }} onClick={logoutHandler} to='/login'>&nbsp;Logout</Link></li>
-        );
-    }
-    else {
-        username = 'Unregistered';
-        navigationLinks = (
-            <li key={'login'}></li>
-        );
-        // <Link to={{ pathname: '/login' }} className='active'>Login</Link>
-    }
+function HeaderComponent(props) {
+    const {
+        username,
+        navigationLinks
+    } = props;
+
     return (
         <div>
             <div className="navbar navbar-inverse navbar-fixed-top">
@@ -70,7 +42,7 @@ export default (props) => {
                     <div className="logo"><Link to="/"><img src="images/logo.png" alt='' /></Link></div>
                     <div className="navigatn">
                         <ul>
-                            <li key='home'><Link to={{ pathname: '/timeline' }} className='active' style={{ marginLeft: 13 }}>Home</Link></li>  
+                            <li key='home'><Link to={{ pathname: '/timeline' }} className='active' style={{ marginLeft: 13 }}>Home</Link></li>
                         </ul>
                     </div>
                 </div>
@@ -83,15 +55,15 @@ export default (props) => {
                         <div style={{ color: "white", marginTop: 12, marginLeft: "56%" }}>
                             {username}
                         </div>
+                        <div style={{ color: "white", marginLeft: "50%" }}>
+                            {navigationLinks}
+                        </div>
                     </div>
-                    <div style={{ color: "white", marginTop: 13, marginLeft: "50%" }}>                        
-                        {navigationLinks}
-                    </div>
+
                 </div>
             </div>
         </div>
     )
-
-
 }
 
+export default HeaderComponent;

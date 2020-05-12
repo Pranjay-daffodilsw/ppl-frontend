@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
-import { update_user_data } from '../../redux';
-import url from '../../config/url';
+import { update_user_data } from '../redux';
+import url from '../config/url';
 
 export default (
 	(props) => {
